@@ -1,4 +1,4 @@
-﻿namespace Salary
+﻿namespace Salary.Forms
 {
     partial class EditTaxesForm
     {

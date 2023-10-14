@@ -12,19 +12,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace Salary
+namespace Salary.Forms
 {
     public partial class EditStatementForm : ChildForm
     {
         private int _selectedID;
-        private ThemeColor _themeColor;
 
         public EditStatementForm(int selectedID, ThemeColor themeColor, MainForm parentForm)
-            : base(parentForm)
+            : base(parentForm, themeColor)
         {
             InitializeComponent();
             _selectedID = selectedID;
-            _themeColor = themeColor;
 
             StatementDAO statementDAO = new StatementDAO();
             PositionsBox.DataSource = statementDAO.GetPositions().Select(position => position.Name).ToList();

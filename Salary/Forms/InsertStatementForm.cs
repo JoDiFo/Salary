@@ -9,16 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Salary
+namespace Salary.Forms
 {
     public partial class InsertStatementForm : ChildForm
     {
-        private ThemeColor _themeColor;
         public InsertStatementForm(ThemeColor themeColor, MainForm parentForm)
-            : base(parentForm)
+            : base(parentForm, themeColor)
         {
             InitializeComponent();
-            _themeColor = themeColor;
 
             StatementDAO statementDAO = new StatementDAO();
             PositionsBox.DataSource = statementDAO.GetPositions().Select(position => position.Name).ToList();

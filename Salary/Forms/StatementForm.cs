@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -11,24 +12,31 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Salary
+namespace Salary.Forms
 {
     public partial class StatementForm : ChildForm
     {
         private BindingSource _bindingSource = new BindingSource();
-        private ThemeColor _themeColor;
+        private Thread _newThread;
         
         public StatementForm(ThemeColor themeColor, MainForm parentForm)
-            : base(parentForm)
+            : base(parentForm, themeColor)
         {
             InitializeComponent();
-            _themeColor = themeColor;
+            //_newThread = new Thread(new ThreadStart(UpdateData));
+        }
+
+        ~StatementForm()
+        {
+            Debug.WriteLine("Statement was destroyed");
         }
 
         private void StatementForm_Load(object sender, EventArgs e)
         {
             LoadTheme();
+
             UpdateData();
+            //_newThread.Start();
         }
 
         private void LoadTheme()
@@ -84,8 +92,8 @@ namespace Salary
         private void UpdateData()
         {
             StatementDAO statementDAO = new StatementDAO();
-
             _bindingSource.DataSource = statementDAO.GetEntries();
+            //_newThread.Join();
             StatementGrid.DataSource = _bindingSource.DataSource;
         }
 

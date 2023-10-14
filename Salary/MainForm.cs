@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -16,7 +17,6 @@ namespace Salary
     public partial class MainForm : Form
     {
         private Button _currentButton;
-        private ChildForm _activeForm;
         private readonly ThemeColor _themeColor;
 
         public MainForm()
@@ -28,7 +28,7 @@ namespace Salary
 
         public void ChangeChildForm(ChildForm childForm)
         {
-            OpenChildForm(childForm);
+            OpenChildForm(childForm, null);
         }
 
         private void ActivateButton(object SenderBtn)
@@ -62,40 +62,11 @@ namespace Salary
             }
         }
 
-        // Opens new child form and activates new button
         private void OpenChildForm(ChildForm childForm, object SenderBtn)
         {
-            _activeForm?.Close();
+            CloseChildForms();
             CloseChildBtn.Visible = true;
-            TitleLbl.Text = childForm.Text;
             ActivateButton(SenderBtn);
-            childForm.TopLevel = false;
-            childForm.FormBorderStyle = FormBorderStyle.None;
-            childForm.Dock = DockStyle.Fill;
-            this.ChildFormPanel.Controls.Add(childForm);
-            this.ChildFormPanel.Tag = childForm;
-            childForm.BringToFront();
-            childForm.Show();
-            _activeForm = childForm;
-        }
-
-        // Opens new child form but doesn't activate new button
-        private void OpenChildForm(ChildForm childForm)
-        {
-            //_activeForm?.Close();
-            //CloseChildBtn.Visible = true;
-            //_activeForm = childForm;
-            //TitleLbl.Text = childForm.Text;
-            //childForm.TopLevel = false;
-            //childForm.FormBorderStyle = FormBorderStyle.None;
-            //childForm.Dock = DockStyle.Fill;
-            //this.ChildFormPanel.Controls.Add(childForm);
-            //this.ChildFormPanel.Tag = childForm;
-            //childForm.BringToFront();
-            //childForm.Show();
-
-            _activeForm?.Close();
-            CloseChildBtn.Visible = true;
             TitleLbl.Text = childForm.Text;
             childForm.TopLevel = false;
             childForm.FormBorderStyle = FormBorderStyle.None;
@@ -104,7 +75,6 @@ namespace Salary
             this.ChildFormPanel.Tag = childForm;
             childForm.BringToFront();
             childForm.Show();
-            _activeForm = childForm;
         }
 
         private void StatementBtn_Click(object sender, EventArgs e)
@@ -129,7 +99,7 @@ namespace Salary
 
         private void CloseChildBtn_Click(object sender, EventArgs e)
         {
-            _activeForm?.Close();
+            CloseChildForms();
             Reset();
         }
 
@@ -141,6 +111,17 @@ namespace Salary
             LogoPanel.BackColor = Color.FromArgb(39, 39, 58);
             _currentButton = null;
             CloseChildBtn.Visible = false;
+        }
+
+        private void CloseChildForms()
+        {
+            foreach (Control control in this.ChildFormPanel.Controls)
+            {
+                if (control.GetType().BaseType == typeof(ChildForm))
+                {
+                    ((Form)control).Close();
+                }
+            }
         }
     }
 }

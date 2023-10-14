@@ -10,18 +10,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Salary
+namespace Salary.Forms
 {
     public partial class TaxesForm : ChildForm
     {
         private BindingSource _bindingSource = new BindingSource();
-        private ThemeColor _themeColor;
         
         public TaxesForm(ThemeColor themeColor, MainForm parentForm)
-            : base(parentForm)
+            : base(parentForm, themeColor)
         {
             InitializeComponent();
-            _themeColor = themeColor;
         }
 
         private void StatementForm_Load(object sender, EventArgs e)
@@ -47,10 +45,7 @@ namespace Salary
 
         private void EditBtn_Click(object sender, EventArgs e)
         {
-            int selectedRow = StatementGrid.CurrentRow.Index;
-            int selectedID = (int)StatementGrid.Rows[selectedRow].Cells[0].Value;
-
-            SwitchForm(new EditTaxesForm(selectedID, _themeColor, _parentForm));
+            SwitchForm(new EditTaxesForm(_themeColor, _parentForm));
 
             UpdateData();
         }

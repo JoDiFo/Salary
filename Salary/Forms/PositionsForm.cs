@@ -10,18 +10,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Salary
+namespace Salary.Forms
 {
     public partial class PositionsForm : ChildForm
     {
         private BindingSource _bindingSource = new BindingSource();
-        private ThemeColor _themeColor;
         
         public PositionsForm(ThemeColor themeColor, MainForm parentForm)
-            : base(parentForm)
+            : base(parentForm, themeColor)
         {
             InitializeComponent();
-            _themeColor = themeColor;
         }
 
         private void StatementForm_Load(object sender, EventArgs e)

@@ -9,16 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Salary
+namespace Salary.Forms
 {
     public partial class InsertPositionForm : ChildForm
     {
-        private ThemeColor _themeColor;
         public InsertPositionForm(ThemeColor themeColor, MainForm parentForm)
-            : base(parentForm)
+            : base(parentForm, themeColor)
         {
             InitializeComponent();
-            _themeColor = themeColor;
         }
 
         private void InsertForm_Load(object sender, EventArgs e)

@@ -1,31 +1,16 @@
-﻿using Org.BouncyCastle.Tls.Crypto;
-using Salary.Forms;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using ZstdSharp.Unsafe;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace Salary
+namespace Salary.Forms
 {
     public partial class EditTaxesForm : ChildForm
     {
-        private int _selectedID;
-        private ThemeColor _themeColor;
-
-        public EditTaxesForm(int selectedID, ThemeColor themeColor, MainForm parentForm)
-            : base(parentForm)
+        public EditTaxesForm(ThemeColor themeColor, MainForm parentForm)
+            : base(parentForm, themeColor)
         {
             InitializeComponent();
-            _selectedID = selectedID;
-            _themeColor = themeColor;
         }
 
         private void EditForm_Load(object sender, EventArgs e)
@@ -45,16 +30,16 @@ namespace Salary
         {
             foreach (Control control in this.Controls)
             {
-                if (control.GetType() == typeof(System.Windows.Forms.Button))
+                if (control.GetType() == typeof(Button))
                 {
-                    System.Windows.Forms.Button button = (System.Windows.Forms.Button)control;
+                    Button button = (Button)control;
                     button.BackColor = _themeColor.GetPrimaryColor();
                     button.ForeColor = Color.White;
                     button.FlatAppearance.BorderColor = _themeColor.GetSecondaryColor();
                 }
-                else if (control.GetType() == typeof(System.Windows.Forms.Label))
+                else if (control.GetType() == typeof(Label))
                 {
-                    System.Windows.Forms.Label label = (System.Windows.Forms.Label)control;
+                    Label label = (Label)control;
                     label.ForeColor = Color.White;
                 }
             }

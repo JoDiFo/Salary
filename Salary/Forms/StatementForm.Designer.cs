@@ -1,7 +1,7 @@
 ﻿using Salary.Forms;
 using System.Windows.Forms;
 
-namespace Salary
+namespace Salary.Forms
 {
     partial class StatementForm
     {

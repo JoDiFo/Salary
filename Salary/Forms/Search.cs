@@ -15,13 +15,11 @@ namespace Salary.Forms
     public partial class Search : ChildForm
     {
         private BindingSource _bindingSource = new BindingSource();
-        private ThemeColor _themeColor;
 
         public Search(ThemeColor themeColor, MainForm parentForm)
-            : base(parentForm)
+            : base(parentForm, themeColor)
         {
             InitializeComponent();
-            _themeColor = themeColor;
         }
         private void Search_Load(object sender, EventArgs e)
         {

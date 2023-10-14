@@ -13,6 +13,7 @@ namespace Salary.Forms
     public partial class ChildForm : Form
     {
         protected MainForm _parentForm;
+        protected ThemeColor _themeColor;
 
         public ChildForm()
         {
@@ -20,10 +21,11 @@ namespace Salary.Forms
             _parentForm = null;
         }        
         
-        public ChildForm(MainForm parentForm)
+        public ChildForm(MainForm parentForm, ThemeColor themeColor)
         {
             InitializeComponent();
             _parentForm = parentForm;
+            _themeColor = themeColor;
         }
 
         protected void SwitchForm(ChildForm newForm)
