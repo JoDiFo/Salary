@@ -17,26 +17,19 @@ namespace Salary.Forms
     public partial class StatementForm : ChildForm
     {
         private BindingSource _bindingSource = new BindingSource();
-        private Thread _newThread;
         
         public StatementForm(ThemeColor themeColor, MainForm parentForm)
             : base(parentForm, themeColor)
         {
             InitializeComponent();
-            //_newThread = new Thread(new ThreadStart(UpdateData));
         }
 
-        ~StatementForm()
-        {
-            Debug.WriteLine("Statement was destroyed");
-        }
-
-        private void StatementForm_Load(object sender, EventArgs e)
+        private async void StatementForm_Load(object sender, EventArgs e)
         {
             LoadTheme();
+            await UpdateData();
 
-            UpdateData();
-            //_newThread.Start();
+            StatementGrid.DataSource = _bindingSource.DataSource;
         }
 
         private void LoadTheme()
@@ -54,47 +47,47 @@ namespace Salary.Forms
             StatementGrid.GridColor = _themeColor.GetLighterColor();
         }
 
-        private void DeleteBtn_Click(object sender, EventArgs e)
+        private async void DeleteBtn_Click(object sender, EventArgs e)
         {
             int selectedRow = StatementGrid.CurrentRow.Index;
             int selectedID = (int)StatementGrid.Rows[selectedRow].Cells[0].Value;
 
             StatementDAO statementDAO = new StatementDAO();
-
             statementDAO.DeleteEmployee(selectedID);
-            MessageBox.Show("1 row deleted");
 
-            UpdateData();
+            await UpdateData();
+            StatementGrid.DataSource = _bindingSource.DataSource;
         }
 
-        private void InsertBtn_Click(object sender, EventArgs e)
+        private async void InsertBtn_Click(object sender, EventArgs e)
         {
             SwitchForm(new InsertStatementForm(_themeColor, _parentForm));
 
-            UpdateData();
+            await UpdateData();
+            StatementGrid.DataSource = _bindingSource.DataSource;
         }
 
-        private void EditBtn_Click(object sender, EventArgs e)
+        private async void EditBtn_Click(object sender, EventArgs e)
         {
             int selectedRow = StatementGrid.CurrentRow.Index;
             int selectedID = (int)StatementGrid.Rows[selectedRow].Cells[0].Value;
 
             SwitchForm(new EditStatementForm(selectedID, _themeColor, _parentForm));
 
-            UpdateData();
+            await UpdateData();
+            StatementGrid.DataSource = _bindingSource.DataSource;
         }
 
-        private void UpdateBtn_Click(object sender, EventArgs e)
+        private async void UpdateBtn_Click(object sender, EventArgs e)
         {
-            UpdateData();
+            await UpdateData();
+            StatementGrid.DataSource = _bindingSource.DataSource;
         }
 
-        private void UpdateData()
+        private async Task UpdateData()
         {
             StatementDAO statementDAO = new StatementDAO();
-            _bindingSource.DataSource = statementDAO.GetEntries();
-            //_newThread.Join();
-            StatementGrid.DataSource = _bindingSource.DataSource;
+            _bindingSource.DataSource = await Task.Run(() => statementDAO.GetEntries());
         }
 
         private void DoDynamicSearch()
@@ -112,7 +105,7 @@ namespace Salary.Forms
             }
             else
             {
-                UpdateData();
+                StatementGrid.DataSource = _bindingSource.DataSource;
             }
         }
 

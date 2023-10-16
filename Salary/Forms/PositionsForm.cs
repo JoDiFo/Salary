@@ -22,10 +22,11 @@ namespace Salary.Forms
             InitializeComponent();
         }
 
-        private void StatementForm_Load(object sender, EventArgs e)
+        private async void StatementForm_Load(object sender, EventArgs e)
         {
             LoadTheme();
-            UpdateData();
+            await UpdateData();
+            PositionsGrid.DataSource = _bindingSource.DataSource;
         }
 
         private void LoadTheme()
@@ -43,47 +44,47 @@ namespace Salary.Forms
             PositionsGrid.GridColor = _themeColor.GetLighterColor();
         }
 
-        private void DeleteBtn_Click(object sender, EventArgs e)
+        private async void DeleteBtn_Click(object sender, EventArgs e)
         {
             int selectedRow = PositionsGrid.CurrentRow.Index;
             int selectedID = (int)PositionsGrid.Rows[selectedRow].Cells[0].Value;
 
             StatementDAO statementDAO = new StatementDAO();
-
             statementDAO.DeletePosition(selectedID);
-            MessageBox.Show("1 row deleted");
 
-            UpdateData();
+            await UpdateData();
+            PositionsGrid.DataSource = _bindingSource.DataSource;
         }
 
-        private void InsertBtn_Click(object sender, EventArgs e)
+        private async void InsertBtn_Click(object sender, EventArgs e)
         {
             SwitchForm(new InsertPositionForm(_themeColor, _parentForm));
 
-            UpdateData();
+            await UpdateData();
+            PositionsGrid.DataSource = _bindingSource.DataSource;
         }
 
-        private void EditBtn_Click(object sender, EventArgs e)
+        private async void EditBtn_Click(object sender, EventArgs e)
         {
             int selectedRow = PositionsGrid.CurrentRow.Index;
             int selectedID = (int)PositionsGrid.Rows[selectedRow].Cells[0].Value;
 
             SwitchForm(new EditPositionForm(selectedID, _themeColor, _parentForm));
 
-            UpdateData();
+            await UpdateData();
+            PositionsGrid.DataSource = _bindingSource.DataSource;
         }
 
-        private void UpdateBtn_Click(object sender, EventArgs e)
+        private async void UpdateBtn_Click(object sender, EventArgs e)
         {
-            UpdateData();
+            await UpdateData();
+            PositionsGrid.DataSource = _bindingSource.DataSource;
         }
 
-        private void UpdateData()
+        private async Task UpdateData()
         {
             StatementDAO statementDAO = new StatementDAO();
-
-            _bindingSource.DataSource = statementDAO.GetPositions();
-            PositionsGrid.DataSource = _bindingSource.DataSource;
+            _bindingSource.DataSource = await Task.Run(() => statementDAO.GetPositions());
         }
     }
 }

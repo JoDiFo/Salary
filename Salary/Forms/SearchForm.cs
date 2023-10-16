@@ -12,22 +12,21 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Salary.Forms
 {
-    public partial class Search : ChildForm
+    public partial class SearchForm : ChildForm
     {
         private BindingSource _bindingSource = new BindingSource();
 
-        public Search(ThemeColor themeColor, MainForm parentForm)
+        public SearchForm(ThemeColor themeColor, MainForm parentForm)
             : base(parentForm, themeColor)
         {
             InitializeComponent();
         }
-        private void Search_Load(object sender, EventArgs e)
+        private async void Search_Load(object sender, EventArgs e)
         {
             LoadTheme();
             FilterBox.DataSource = new List<string>{"Name", "Position"};
             FilterBox.Text = "Name";
-            StatementDAO statementDAO = new StatementDAO();
-            _bindingSource.DataSource = statementDAO.GetEntries();
+            await UpdateData();
         }
 
         private void LoadTheme()
@@ -110,6 +109,12 @@ namespace Salary.Forms
         {
             if (SearchTxt.Text == "") return;
             DoSearch();
+        }
+
+        private async Task UpdateData()
+        {
+            StatementDAO statementDAO = new StatementDAO();
+            _bindingSource.DataSource = await Task.Run(() => statementDAO.GetEntries());
         }
     }
 }

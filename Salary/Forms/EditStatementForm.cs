@@ -65,7 +65,6 @@ namespace Salary.Forms
 
             statementDAO.EditEmployee(_selectedID, Name_txt.Text, PositionsBox.Text);
 
-            MessageBox.Show("1 row edited");
             SwitchForm(new StatementForm(_themeColor, _parentForm));
             this.Close();
         }

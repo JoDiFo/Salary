@@ -94,7 +94,7 @@ namespace Salary
 
         private void SearchBtn_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new Forms.Search(_themeColor, this), sender);
+            OpenChildForm(new Forms.SearchForm(_themeColor, this), sender);
         }
 
         private void CloseChildBtn_Click(object sender, EventArgs e)

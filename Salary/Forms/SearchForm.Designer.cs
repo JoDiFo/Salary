@@ -1,6 +1,6 @@
 ﻿namespace Salary.Forms
 {
-    partial class Search
+    partial class SearchForm
     {
         /// <summary>
         /// Required designer variable.

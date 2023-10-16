@@ -22,10 +22,11 @@ namespace Salary.Forms
             InitializeComponent();
         }
 
-        private void StatementForm_Load(object sender, EventArgs e)
+        private async void StatementForm_Load(object sender, EventArgs e)
         {
             LoadTheme();
-            UpdateData();
+            await UpdateData();
+            StatementGrid.DataSource = _bindingSource.DataSource;
         }
 
         private void LoadTheme()
@@ -43,24 +44,24 @@ namespace Salary.Forms
             StatementGrid.GridColor = _themeColor.GetLighterColor();
         }
 
-        private void EditBtn_Click(object sender, EventArgs e)
+        private async void EditBtn_Click(object sender, EventArgs e)
         {
             SwitchForm(new EditTaxesForm(_themeColor, _parentForm));
 
-            UpdateData();
+            await UpdateData();
+            StatementGrid.DataSource = _bindingSource.DataSource;
         }
 
-        private void UpdateBtn_Click(object sender, EventArgs e)
+        private async void UpdateBtn_Click(object sender, EventArgs e)
         {
-            UpdateData();
+            await UpdateData();
+            StatementGrid.DataSource = _bindingSource.DataSource;
         }
 
-        private void UpdateData()
+        private async Task UpdateData()
         {
             StatementDAO statementDAO = new StatementDAO();
-
-            _bindingSource.DataSource = statementDAO.GetTaxes();
-            StatementGrid.DataSource = _bindingSource.DataSource;
+            _bindingSource.DataSource = await Task.Run(() => statementDAO.GetTaxes());
         }
     }
 }

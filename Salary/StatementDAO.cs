@@ -1,10 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Salary
 {
@@ -40,13 +35,13 @@ namespace Salary
                     );
 
                     entries.Add(entry);
-                } 
-            }    
+                }
+            }
             connection.Close();
 
             return entries;
         }
-        
+
         public Entry GetEntry(int entryID)
         {
             Entry entry = new Entry();
@@ -76,7 +71,7 @@ namespace Salary
 
             return entry;
         }
-        
+
         public Employee GetEmployee(int employeeID)
         {
             Employee employee = new Employee();
@@ -103,7 +98,7 @@ namespace Salary
 
             return employee;
         }
-        
+
         public List<Entry> GetSearchResult(string searchString, string filter = "employees.Name")
         {
             List<Entry> entries = new List<Entry>();
@@ -144,7 +139,7 @@ namespace Salary
 
             return entries;
         }
-        
+
         public void AddEmployee(string employeeName, string employeePosition)
         {
             MySqlConnection connection = new MySqlConnection(_connectionString);
@@ -173,7 +168,7 @@ namespace Salary
 
             connection.Close();
         }
-        
+
         public void DeleteEmployee(int employeeID)
         {
             MySqlConnection connection = new MySqlConnection(_connectionString);
@@ -187,7 +182,7 @@ namespace Salary
 
             connection.Close();
         }
-        
+
         public void EditEmployee(int employeeID, string employeeName, string employeePosition)
         {
             MySqlConnection connection = new MySqlConnection(_connectionString);
@@ -243,7 +238,7 @@ namespace Salary
                     position.Name = reader.GetString(1);
                     position.Salary = reader.GetDouble(2);
                     position.TaxType = (reader.GetString(3) == "Contract") ? Taxes.TaxType.Contract : Taxes.TaxType.Income;
-                    
+
                     positions.Add(position);
                 }
             }

@@ -52,7 +52,6 @@ namespace Salary.Forms
             StatementDAO statementDAO = new StatementDAO();
 
             statementDAO.AddEmployee(Name_txt.Text, PositionsBox.Text);
-            MessageBox.Show("1 row edited");
 
             SwitchForm(new StatementForm(_themeColor, _parentForm));
             this.Close();
